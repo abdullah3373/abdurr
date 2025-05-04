@@ -16,7 +16,7 @@ st.set_page_config(
 
 # Title + Vibes
 st.title("💥 Fight Club: Financial Regression Chaos")
-st.image("https://media.giphy.com/media/3o6ZtaO9BZHcOjmErm/giphy.gif", width=1000)
+st.image("https://media.giphy.com/media/d0NnEG1WnnXqg/giphy.gif", width=800)
 
 
 st.markdown("""
