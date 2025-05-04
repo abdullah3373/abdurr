@@ -17,8 +17,6 @@ st.set_page_config(
 # Title + Vibes
 st.title("💥 Fight Club: Financial Regression Chaos")
 
-#st.image("image.jpg", width=1000)
-
 st.markdown("""
 Welcome to **Project Regression**. You are not your bank balance.  
 You are the all-singing, all-predicting financial machine.  
