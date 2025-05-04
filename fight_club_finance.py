@@ -16,6 +16,8 @@ st.set_page_config(
 
 # Title + Vibes
 st.title("💥 Fight Club: Financial Regression Chaos")
+st.image("https://media.giphy.com/media/3o6ZtaO9BZHcOjmErm/giphy.gif", width=1000)
+
 
 st.markdown("""
 Welcome to **Project Regression**. You are not your bank balance.  
