@@ -3,6 +3,7 @@ import pandas as pd
 import numpy as np
 import seaborn as sns
 import plotly.graph_objects as go
+import matplotlib.pyplot as plt
 from sklearn.linear_model import LinearRegression
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import r2_score, mean_squared_error
@@ -17,7 +18,6 @@ st.set_page_config(
 # Title + Vibes
 st.title("💥 Fight Club: Financial Regression Chaos")
 st.image("https://media.giphy.com/media/d0NnEG1WnnXqg/giphy.gif", width=800)
-
 
 st.markdown("""
 Welcome to **Project Regression**. You are not your bank balance.  
@@ -37,20 +37,26 @@ if uploaded_file:
     st.subheader("📂 Data Preview")
     st.dataframe(df.head())
 
-    st.subheader("🧮 Stats")
+    st.subheader("🧮 Stats Summary")
     st.write(df.describe())
 
     st.subheader("❓ Missing Data Check")
     missing = df.isnull().sum()
+    st.write(missing)
+
     if missing.sum() > 0:
-        st.warning("⚠️ Missing values detected — we're patching it up (forward fill, then zeros).")
+        st.warning("⚠️ Missing values detected — patching it up (forward fill, then zeros).")
         df = df.fillna(method='ffill').fillna(0)
     else:
-        st.success("No missing values. Your data is as clean as soap.")
+        st.success("✅ No missing values. Your data is as clean as soap.")
+
+    st.subheader("🧹 Data Type Info")
+    st.write(df.dtypes)
 
     numeric_df = df.select_dtypes(include=np.number)
+
     if numeric_df.shape[1] < 2:
-        st.error("Need at least 2 numeric columns. You brought a knife to a gunfight.")
+        st.error("❌ Need at least 2 numeric columns. You brought a knife to a gunfight.")
         st.stop()
 
     st.subheader("🔥 Correlation Matrix")
@@ -59,9 +65,16 @@ if uploaded_file:
     st.pyplot(fig)
 
     if numeric_df.shape[1] <= 5:
-        st.subheader("👀 Feature Relationships")
+        st.subheader("👀 Pairplot: Feature Relationships")
         sns.pairplot(numeric_df)
         st.pyplot(plt.gcf())
+
+    st.subheader("📈 Distribution Plots")
+    for col in numeric_df.columns:
+        fig, ax = plt.subplots()
+        sns.histplot(df[col], kde=True, ax=ax)
+        ax.set_title(f"Distribution of {col}")
+        st.pyplot(fig)
 
     st.header("🎯 Linear Regression Setup")
 
@@ -99,7 +112,7 @@ if uploaded_file:
             st.markdown(f"- **{feature}** {trend} **{target}** by ~**{abs(coef):.2f}** units.")
 
         if len(features) == 1:
-            st.subheader("📈 Actual vs Predicted (1D Visual)")
+            st.subheader("📉 Actual vs Predicted (1D Visual)")
 
             plot_df = pd.DataFrame({
                 features[0]: X_test[features[0]],
